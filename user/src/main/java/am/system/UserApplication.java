@@ -1,6 +1,6 @@
 package am.system;
 
-import am.system.broker.UserPublisher;
+import am.system.broker.UserClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class UserApplication {
 
     public static void main(String[] args) {
-        UserPublisher.publish();
         SpringApplication.run(UserApplication.class, args);
     }
 }
