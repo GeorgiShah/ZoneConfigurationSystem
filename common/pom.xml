@@ -41,5 +41,10 @@
             <artifactId>spring-boot-starter-validation</artifactId>
             <version>2.7.4</version>
         </dependency>
+        <dependency>
+            <groupId>org.eclipse.paho</groupId>
+            <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+            <version>1.2.0</version>
+        </dependency>
     </dependencies>
 </project>
