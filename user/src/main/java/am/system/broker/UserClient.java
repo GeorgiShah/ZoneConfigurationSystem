@@ -1,5 +1,6 @@
 package am.system.broker;
 
+import am.system.utils.Constants;
 import org.eclipse.paho.client.mqttv3.*;
 
 import java.nio.charset.StandardCharsets;
@@ -38,22 +39,7 @@ public final class UserClient implements Publisher, Subscriber {
 
     @Override
     public void subscribe(String topic) {
-        client.setCallback(new MqttCallback() {
-            @Override
-            public void connectionLost(Throwable throwable) {
-                System.out.println("User lost connection to server: " + throwable.getCause());
-            }
-
-            @Override
-            public void messageArrived(String s, MqttMessage mqttMessage) {
-                System.out.println("User received: " + new String(mqttMessage.getPayload()));
-            }
-
-            @Override
-            public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-                System.out.println("Delivery is completed: " + iMqttDeliveryToken.isComplete());
-            }
-        });
+        client.setCallback(new UserMqttCallback());
 
         try {
             client.subscribe(topic);
@@ -64,7 +50,7 @@ public final class UserClient implements Publisher, Subscriber {
 
     private static void connectToServer() {
         try {
-            client = new MqttClient("tcp://broker.emqx.io:1883", USER_ID);
+            client = new MqttClient(Constants.BROKER, USER_ID);
             client.connect();
         } catch (MqttException e) {
             e.printStackTrace();

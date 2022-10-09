@@ -1,6 +1,8 @@
 package am.system.broker;
 
+import am.system.utils.Constants;
 import org.eclipse.paho.client.mqttv3.*;
+import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
@@ -8,9 +10,9 @@ import java.util.UUID;
 
 public final class AdminClient implements Publisher, Subscriber {
 
-    private static AdminClient adminClient;
-
     private static final String ADMIN_ID = UUID.randomUUID().toString();
+
+    private static AdminClient adminClient;
 
     private static IMqttClient client;
 
@@ -38,22 +40,7 @@ public final class AdminClient implements Publisher, Subscriber {
 
     @Override
     public void subscribe(String topic) {
-        client.setCallback(new MqttCallback() {
-            @Override
-            public void connectionLost(Throwable throwable) {
-                System.out.println("Admin lost connection to server: " + throwable.getCause());
-            }
-
-            @Override
-            public void messageArrived(String s, MqttMessage mqttMessage) {
-                System.out.println("Admin received: " + new String(mqttMessage.getPayload()));
-            }
-
-            @Override
-            public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-                System.out.println("Delivery is completed: " + iMqttDeliveryToken.isComplete());
-            }
-        });
+        client.setCallback(new AdminMqttCallback());
 
         try {
             client.subscribe(topic);
@@ -64,7 +51,7 @@ public final class AdminClient implements Publisher, Subscriber {
 
     private static void connectToServer() {
         try {
-            client = new MqttClient("tcp://broker.emqx.io:1883", ADMIN_ID);
+            client = new MqttClient(Constants.BROKER, ADMIN_ID);
             client.connect();
         } catch (MqttException e) {
             e.printStackTrace();

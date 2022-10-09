@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/admin/zone")
+@RequestMapping(value = "/api/admin/zone")
 public class ZoneController {
 
     private final ZoneManager zoneManager;
