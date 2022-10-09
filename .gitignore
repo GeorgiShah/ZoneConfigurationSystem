@@ -2,3 +2,5 @@
 /admin/target/
 /common/target/
 /user/target/
+/common/target/classes/
+/admin/target/classes/
